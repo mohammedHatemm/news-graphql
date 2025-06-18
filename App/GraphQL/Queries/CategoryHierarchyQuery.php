@@ -18,9 +18,18 @@ class CategoryHierarchyQuery extends Query
   {
     return Type::listOf(GraphQL::type('Category'));
   }
-
+  public function args(): array
+  {
+    return [
+      'id' => [
+        'type' => Type::nonNull(Type::int()),
+        'description' => 'المعرف الفريد للفئة',
+      ],
+    ];
+  }
   public function resolve($root, $args)
   {
-    return Category::getCategoryHierarchy();
+    $category = Category::find($args['id']);
+    return $category->getCategoryHierarchy();
   }
 }

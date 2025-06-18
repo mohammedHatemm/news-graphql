@@ -37,4 +37,16 @@ class Category extends Model
     {
         return $this->belongsToMany(News::class, 'news_categories');
     }
+    public function getCategoryHierarchy(): array
+    {
+        $hierarchy = [];
+        $currentCategory = $this;
+        while ($currentCategory) {
+            array_unshift($hierarchy, $currentCategory);
+            $currentCategory = $currentCategory->parent;
+        }
+        return $hierarchy;
+    }
+
+    
 }
